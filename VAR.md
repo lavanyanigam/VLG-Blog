@@ -55,9 +55,7 @@ It works as follows:
 
     The input image is first passed through an encoder to produce a feature map:
    
-   $$[
-f = \mathcal{E}(\text{im})
-      ]$$
+   $$[f = \mathcal{E}(\text{im})]$$
 
 3. Iterate over scales
     For each resolution level k = 1 to K:
@@ -110,21 +108,19 @@ $$\hat{f}=0$$
 
 1. **Iterate over scales**
 
-    For each scale \( k = 1 \) to \( K \):
+    For each scale k = 1 to K :
 
-- Retrieve tokens \( r_k \)
+- Retrieve tokens $r_k$
 
 - Convert them back to feature vectors:
-$$
-z_k = \text{lookup}(Z, r_k)
-$$
+- 
+  $$z_k = \text{lookup}(Z, r_k)$$
 
 - Upsample to full resolution
 
 - Add the contribution to the feature map:
-$$
-\hat{f} = \hat{f} + \phi_k(z_k)
-$$
+  
+  $$z_k = \text{lookup}(Z, r_k)$$
 
 3. **Decode the final feature map**
 $$
