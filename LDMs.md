@@ -8,17 +8,11 @@ Latent Diffusion Models (LDMs) solved this by doing most of the compute in a sma
 
 - $t$: This is the current time step. This usually goes from $0$ to $1$. We spilt our process into $T$ steps of size 1/ $T$. 
 
-- $z$: A specific, real image from our training dataset
+- $z$: This is the compressed, "latent" version of an image.
 
 - $p_{\text{data}}$: The true probability distribution of our data, where all real images in our dataset exist.
 
 -  $p_{\text{init}}$: The initial distribution at $t=0$. This is usually pure, random noise (a Gaussian distribution in our case).
-
-- $x$: A point in space at time $t$. This is the partially noisy data, between $p_{\text{init}}$ and $p_{\text{data}}$
-
-- $p_t(x|z)$: The conditional probability path. If we start with a real image $z$, this is the distribution of our noisy image $x$ at time $t$ 
-
-- $p_t(x)$: This is marginal probability path. If we look at all the noisy images at time $t$, this is their overall distribution, regardless of which original image they came from.
 
 ---
 ## Phase 1: 
@@ -55,7 +49,7 @@ The U-Net puts the "diffusion" in the Latent Diffusion model. Its only motive is
 
 It looks at the noisy latent vector, the timestep $t$ (how much noise was added), and the Text Prompt embeddings. It predicts what the noise lwas a step before and subtracts it to give a slightly cleaner input $x_{t-1}$. Its parameters ($\theta$) are updated using the Mean Squared Error (MSE) loss. 
 
- $$\text{Loss}_{LDM} = \mathbb{E}_{z, \epsilon \sim \mathcal{N}(0,1), t} \left[ || \epsilon - \epsilon_\theta(z_t, t, \text{text}) ||^2 \right]$$
+$$\text{Loss}_{LDM} = \mathbb{E}_{z, \epsilon \sim \mathcal{N}(0,1), t} \left[ || \epsilon - \epsilon_\theta(z_t, t, \text{text}) ||^2 \right]$$
  
 BONUS:
 **Classifier-Free Guidance**: To force the model to follow the prompt, we randomly drop the text conditioning during training. During generation, the U-Net runs twice, once with the text and once without it and mathematically we push the generation in the direction of the conditioned prompt. 
@@ -68,23 +62,26 @@ How do we put together our components the VAE, the U-Net, and the CLIP model to 
 
 1. You type "a boy holding a coffee cup". The **CLIP text encoder** processes this prompt and turns it into a mathematical embedding.
 
-2. The model samples a completely random tensor of pure noise _in the latent space_. This is our blank canvas, $p_{\text{init}}$ (only that it its not white, or a canvas) $$\text x_T \sim \mathcal{N}(0,1) $$3. This random noise is fed into the **U-Net**. Using **Cross-Attention**, the U-Net looks at the CLIP text embeddings and the input $z_{t}$ at timestep $t$ to understand what it is supposed make the final image look like. It uses Self-Attention to look at other image features across the whole canvas. Step-by-step, the U-Net predicts the noise in the latent space and outputs $z_{t-1}$.
+2. The model samples a completely random tensor of pure noise _in the latent space_. This is our blank canvas, $p_{\text{init}}$ (only that it its not white, or a canvas)
+   
+   $$\text z_T \sim \mathcal{N}(0,1) $$
+4. This random noise is fed into the **U-Net**. Using **Cross-Attention**, the U-Net looks at the CLIP text embeddings and the input $z_{t}$ at timestep $t$ to understand what it is supposed make the final image look like. It uses Self-Attention to look at other image features across the whole canvas. Step-by-step, the U-Net predicts the noise in the latent space and outputs $z_{t-1}$.
 
-3. After repeating this denoising loop $T$ times, we are left with a clean,  latent representation of a boy holding a coffee cup.
+5. After repeating this denoising loop $T$ times, we are left with a clean,  latent representation of a boy holding a coffee cup.
 
-4. Finally, this clean latent tensor is passed through the **VAE Decoder**. The Decoder upscales and decompresses this mathematical representation back into the high-dimensional pixel space like it was trained to, leaving us with a high-resolution image of a boy holding a coffee cup.
+6. Finally, this clean latent tensor is passed through the **VAE Decoder**. The Decoder upscales and decompresses this mathematical representation back into the high-dimensional pixel space like it was trained to, leaving us with a high-resolution image of a boy holding a coffee cup.
 
 During training, we are trying to bring our initial noise distribution $p_{\text{init}}$ as close to the true data distribution $p_{\text{data}}$ as possible. But why do we need a U-Net to do this? Why can't we just use direct mathematics? 
 
-If we want to mathematically calculate the exact reverse step for cleaning the image, we have to use Bayes' Theorem:
-$$p(z_{t-1}|z_t)=\frac{p(z_t|z_{t-1})\cdot p(z_{t-1})}{p(z_t)}$$
+In standard diffusion math, we use $q$ to represent the "true" representation of probability, and $p_\theta$ to represent our neural network's attempt to guess it. If we want to mathematically calculate the exact reverse step for cleaning the image, we have to use Bayes' Theorem:
+$$q(z_{t-1}|z_t)=\frac{q(z_t|z_{t-1})\cdot q(z_{t-1})}{q(z_t)}$$
 
-The Numerator: $p(z_t|z_{t-1})$ is just the forward process of adding noise, which we control and hence we know.
-The Denominator (The Problem): $p(z_t)$ is the marginal probability of that specific noisy image existing.
-This requires us to know the marginal probability of the data, $p(z_{0})$. This is the mathematical formula for the entire dataset of real-world images. 
+The Numerator: $q(z_t|z_{t-1})$ is just the forward process of adding noise, which we control and hence we know.
+The Denominator (The Problem): $q(z_t)$ is the marginal probability of that specific noisy image existing. 
 
+For this we need the mathematical formula for the entire dataset of real-world images. 
 This is computationally impossible, or in math terms _intractable_ because real images are too complex. We cannot write a single algebraic equation that outputs a high probability for a realistically generated face and a low probability for TV static looking noise.
 
-Because we cannot calculate the exact reverse path $p(z_{t-1}|z_t)$, we have to approximate it using our U-Net neural network. It gives us an estimated probability distribution: $p_\theta(z_{t-1}|z_t)$. Here $\theta$ is the the weights and biases of our neural network which we can update.
+Because we cannot calculate the reverse path $q(z_{t-1}|z_t)$, we have to approximate it using our U-Net neural network. It gives us an estimated probability distribution: $p_\theta(z_{t-1}|z_t)$. Here $\theta$ is the the weights and biases of our neural network which we can update.
 
-Step-by-step, this whole process sculpts the meaningless distribution of random noise ($p_{init}$) into the shape of the highly structured distribution of real images ($p_{data}$).
+Step-by-step, this whole process models the meaningless distribution of random noise ($p_{init}$) into the shape of the highly structured distribution of real images ($p_{data}$).
