@@ -1,12 +1,12 @@
 # Latent Diffusion Model Architecture
 
-Traditional diffusion models worked in high-dimensional pixel spaces, making them computationally expensive to train and very slow to generate images. Because of this, they could not produce high-resolution outputs.
+Traditional diffusion models (DDPMs) worked in high-dimensional pixel spaces, making them computationally expensive to train and very slow to generate images. Because of this, they could not produce high-resolution outputs.
 
-In other words, these traditional models processed the entire high-resolution image tensor as it was for most of the training. Imagine running heavy computations 1,000 times on a $1024 \times 1024 \times 3$ tensor. Only the GPU cost would dig holes in your pokets.
+In other words, these traditional models processed the entire high-resolution image tensor as it was for most of the training. Imagine running heavy computations 1,000 times on a $1024 \times 1024 \times 3$ tensor. Only the GPU cost would dig holes in your pockets.
 
-Latent Diffusion Models (LDMs) solved this by moving the heavy lifting into a smaller, compressed "latent" space. But before we deep-dive into the architecture that makes this possible, these are the basic mathematical terms we might come across:
+Latent Diffusion Models (LDMs) solved this by doing most of the compute in a smaller, "latent" space. But before we deep-dive into the architecture that makes this possible, these are the basic mathematical terms we might use:
 
-- $t$: The time step. This usually goes from $0$ to $1$. We spilt our process into $T$ steps of size 1/$T$. 
+- $t$: This is the current time step. This usually goes from $0$ to $1$. We spilt our process into $T$ steps of size 1/$T$. 
 
 - $z$: A specific, real image from our training dataset
 
