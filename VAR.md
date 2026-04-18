@@ -105,11 +105,10 @@ During inference, the process becomes even more efficient. Since generation proc
 **Multi-Scale Reconstruction(Algorithm 2)**
 
 1. **Initialize an empty feature map**
-$$
-\hat{f} = 0
-$$
+   
+$$\hat{f}=0$$
 
-2. **Iterate over scales**
+1. **Iterate over scales**
 
     For each scale \( k = 1 \) to \( K \):
 
