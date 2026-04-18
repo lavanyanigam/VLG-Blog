@@ -57,7 +57,7 @@ It works as follows:
    
    $$[
 f = \mathcal{E}(\text{im})
-]$$
+      ]$$
 
 3. Iterate over scales
     For each resolution level k = 1 to K:
