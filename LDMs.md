@@ -6,7 +6,7 @@ In other words, these traditional models processed the entire high-resolution im
 
 Latent Diffusion Models (LDMs) solved this by doing most of the compute in a smaller, "latent" space. But before we deep-dive into the architecture that makes this possible, these are the basic mathematical terms we might use:
 
-- $t$: This is the current time step. This usually goes from $0$ to $1$. We spilt our process into $T$ steps of size 1/$T$. 
+- $t$: This is the current time step. This usually goes from $0$ to $1$. We spilt our process into $T$ steps of size 1/ $T$. 
 
 - $z$: A specific, real image from our training dataset
 
@@ -54,7 +54,9 @@ This is where the **CLIP (Contrastive Language-Image Pre-training)** text encode
 The U-Net puts the "diffusion" in the Latent Diffusion model. Its only motive is: learn how to remove added mathematical noise from the compressed latent representations.
 
 It looks at the noisy latent vector, the timestep $t$ (how much noise was added), and the Text Prompt embeddings. It predicts what the noise lwas a step before and subtracts it to give a slightly cleaner input $x_{t-1}$. Its parameters ($\theta$) are updated using the Mean Squared Error (MSE) loss. 
+
  $$\text{Loss}_{LDM} = \mathbb{E}_{z, \epsilon \sim \mathcal{N}(0,1), t} \left[ || \epsilon - \epsilon_\theta(z_t, t, \text{text}) ||^2 \right]$$
+ 
 BONUS:
 **Classifier-Free Guidance**: To force the model to follow the prompt, we randomly drop the text conditioning during training. During generation, the U-Net runs twice, once with the text and once without it and mathematically we push the generation in the direction of the conditioned prompt. 
 
