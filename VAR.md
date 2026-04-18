@@ -98,7 +98,8 @@ preserving the autoregressive property and preventing information leakage.
 
 Within a scale, however, tokens are generated simultaneously and can attend to each other freely. This is a major departure from standard autoregressive models, where each token can only attend to previous tokens.
 
-During inference, the process becomes even more efficient. Since generation proceeds strictly from lower to higher resolutions, there is no need for masking. Additionally, key-value (KV) caching can be used to reuse computations from previous steps, further speeding up generation.
+During inference, the process becomes even more efficient. Since generation proceeds strictly from lower to higher resolutions, there is no need for masking. Additionally, key-value (KV) caching can be ;
+used to reuse computations from previous steps, further speeding up generation.
 
 **Multi-Scale Reconstruction(Algorithm 2)**
 
@@ -119,8 +120,8 @@ $$\hat{f}=0$$
    - Upsample to full resolution
 
    - Add the contribution to the feature map:
-  
-    $$\hat{f} = \hat{f} + \phi_k(z_k)$$
+
+     $$\hat{f} = \hat{f} + \phi_k(z_k)$$
 
 3. **Decode the final feature map**
    $$\hat{\text{im}} = \mathcal{D}(\hat{f})$$
