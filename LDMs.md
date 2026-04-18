@@ -1,6 +1,6 @@
 # Latent Diffusion Model Architecture
 
-Traditional diffusion models worked in high-dimensional pixel spaces, making them computationally expensive to train and incredibly slow to generate images. Because of this, they could not produce high-resolution outputs.
+Traditional diffusion models worked in high-dimensional pixel spaces, making them computationally expensive to train and very slow to generate images. Because of this, they could not produce high-resolution outputs.
 
 In other words, these traditional models processed the entire high-resolution image tensor as it was for most of the training. Imagine running heavy computations 1,000 times on a $1024 \times 1024 \times 3$ tensor. Only the GPU cost would dig holes in your pokets.
 
