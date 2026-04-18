@@ -53,13 +53,15 @@ It works as follows:
 1. Encode the image
 
     The input image is first passed through an encoder to produce a feature map:
+   
 $$[
 f = \mathcal{E}(\text{im})
 ]$$
-2. Iterate over scales
+3. Iterate over scales
     For each resolution level $ k = 1 $ to $ K $:
     * The feature map is resized (interpolated) to the target resolution $h_k \times w_k$
     * This resized feature map is then quantized and stored as $r_k$:
+      
 $$[
 r_k = \mathcal{Q}(\text{interpolate}(f, h_k, w_k))
 ]$$
@@ -67,6 +69,7 @@ r_k = \mathcal{Q}(\text{interpolate}(f, h_k, w_k))
 
 3. Reconstruct approximation at this scale
 The tokens are mapped back to feature space using the shared codebook:
+
 $$[
 z_k = \text{lookup}(Z, r_k)
 ]$$ 
@@ -76,6 +79,7 @@ z_k = \text{lookup}(Z, r_k)
 4. Residual refinement
 
     A key step: the model subtracts this reconstructed signal from the feature map:
+   
 $$[
 f = f - \phi_k(z_k)
 ]$$
