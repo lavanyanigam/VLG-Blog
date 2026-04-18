@@ -57,7 +57,7 @@ It works as follows:
    
    $$[f = \mathcal{E}(\text{im})]$$
 
-3. Iterate over scales
+2. Iterate over scales
     For each resolution level k = 1 to K:
     * The feature map is resized (interpolated) to the target resolution $h_k \times w_k$
     * This resized feature map is then quantized and stored as $r_k$:
@@ -74,7 +74,7 @@ $$[
 z_k = \text{lookup}(Z, r_k)
 ]$$ 
 
-- This is then upsampled back to the original resolution
+  - This is then upsampled back to the original resolution
 
 4. Residual refinement
 
