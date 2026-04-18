@@ -54,12 +54,13 @@ It works as follows:
 1. Encode the image
 
     The input image is first passed through an encoder to produce a feature map:
+   
    $$[
 f = \mathcal{E}(\text{im})
 ]$$
 
-2. Iterate over scales
-    For each resolution level $ k = 1 $ to $ K $:
+3. Iterate over scales
+    For each resolution level k = 1 to K:
     * The feature map is resized (interpolated) to the target resolution $h_k \times w_k$
     * This resized feature map is then quantized and stored as $r_k$:
       
