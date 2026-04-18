@@ -35,6 +35,7 @@ Each level captures progressively finer details. The model then learns to genera
 So, it changes the autoregressive factorization from:
 
 $$p(x_1, x_2, \dots, x_T) = \prod_{t=1}^{T} p(x_t \mid x_1, x_2, \dots, x_{t-1})$$
+
 to:
 
 $$p(r_1, r_2, \dots, r_k) = \prod_{k=1}^{K} p(r_k \mid r_1, r_2, \dots, r_{k-1})$$
@@ -53,11 +54,11 @@ It works as follows:
 1. Encode the image
 
     The input image is first passed through an encoder to produce a feature map:
-   
-$$[
+   $$[
 f = \mathcal{E}(\text{im})
 ]$$
-3. Iterate over scales
+
+2. Iterate over scales
     For each resolution level $ k = 1 $ to $ K $:
     * The feature map is resized (interpolated) to the target resolution $h_k \times w_k$
     * This resized feature map is then quantized and stored as $r_k$:
