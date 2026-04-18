@@ -74,4 +74,7 @@ How do we put together our components the VAE, the U-Net, and the CLIP model to 
 
 4. Finally, this clean latent tensor is passed through the **VAE Decoder**. The Decoder upscales and decompresses this mathematical representation back into the high-dimensional pixel space like it was trained to, leaving us with a high-resolution image of a boy holding a coffee cup.
 
-Through all this all we try to do is to bring $p_{\text{init}}$ as close to $p_{\text{data}}$ as possible.
+During training, we are trying to bring our initial noise distribution $p_{\text{init}}$ as close to the true data distribution $p_{\text{data}}$ as possible. But why do we need a U-Net to do this? Why can't we just use direct mathematics? 
+To take a partially noisy image at timestep $t$ and to clean it up to step $t-1$, we would use the true reverse probability $q(z_{t-1}|z_t)$. To calculate this directly using Bayes' Theorem, the formula requires us to know the marginal probability of the data, $p(x)$. This is the mathematical formula for the entire dataset of real-world images. This is computationally impossible, or in math terms _intractable_ because real images are too complex. We cannot write a single algebraic equation that outputs a high probability for a realistically generated face and a low probability for TV static looking noise.
+
+Because we cannot calculate the exact reverse path $q(z_{t-1}|z_t)$, we have to approximate it using our U-Net neural network. It gives us an estimated probability distribution: $p_\theta(z_{t-1}|z_t)$. Here $\theta$ is the the weights and biases of our neural network which we can update.
