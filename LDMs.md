@@ -23,6 +23,8 @@ Latent Diffusion Models (LDMs) solved this by moving the heavy lifting into a sm
 ---
 ## Phase 1: 
 
+![](LDM_arch.png)
+
 Imagine a Latent Diffusion model as a car, and for a moment lets be mechanics trying to build the car. So heres the components we’re supposed to assemble.
 ### 1. The Variational Autoencoder (VAE)
 
