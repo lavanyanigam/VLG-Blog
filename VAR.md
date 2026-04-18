@@ -86,7 +86,7 @@ $$[
 f = f - \phi_k(z_k)
 ]$$
 
-Here, $ \phi_k $ is a small convolutional module that processes the reconstructed features.
+Here, $\phi_k$ is a small convolutional module that processes the reconstructed features.
 
 This multi-scale representation aligns closely with how humans perceive images. We first grasp the global structure (shapes, layout), and only then focus on fine details (textures, edges). VAR explicitly models this hierarchy.
 
