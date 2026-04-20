@@ -12,7 +12,7 @@ In this blog, weâ€™ll break down both approaches in a simple, intuitive way. Weâ
 ## History of Autoregressive and Diffusion models
 
 **Autoregressive Models**
-Autoregressive models were one of the earliest approaches explored for image generation, inspired by their success in NLP based tasks. Some models like **PixelCNN** tried to process images sequentially like a text. While this felt theoretically correct, it quickly ran into practical limitations. Images are quite high-dimensional and generating them pixel by pixel resulted in extremely high inference time and compute. Moreover, flattening a 2D image into a 1D sequence disrupts spatial relationships.
+Autoregressive models were one of the earliest approaches explored for image generation, inspired by their success in NLP based tasks. Some models like **PixelCNN**[^7] tried to process images sequentially like a text. While this felt theoretically correct, it quickly ran into practical limitations. Images are quite high-dimensional and generating them pixel by pixel resulted in extremely high inference time and compute. Moreover, flattening a 2D image into a 1D sequence disrupts spatial relationships.
 
 Later approaches tried to improve this model by incorporating techniques like **VQ-VAE (Vector Quantised-Variational AutoEncoder)** for discrete tokenization and combining them with transformers. While they improved representation learning and scalability to some extent they still relied on next token prediction over flattened sequences. As a result, they remained computationally expensive and struggled to match the quality and efficiency of methods like diffusion modeling.
 
@@ -122,7 +122,7 @@ Step-by-step, this whole process models the meaningless distribution of random n
 
 ---
 
-# Visual Autoregressive Models (VAR): A Promising Alternative to Diffusion?
+# Visual Autoregressive Models (VAR): A Promising Alternative to Diffusion?[^5]
 ![Some generated samples by VAR](images_blog/Generated_samples.png)
 
 Autoregressive models have been quite successful in natural language processing (NLP) based tasks but whenever applied in the field of Computer Vision the results haven't been up to the mark. The main reason is that text has a natural sequential structure, whereas images are inherently two-dimensional and lack a canonical ordering. Flattening them into sequences disrupts their spatial structure.
@@ -168,7 +168,7 @@ $$p(r_1, r_2, \dots, r_k) = \prod_{k=1}^{K} p(r_k \mid r_1, r_2, \dots, r_{k-1})
 
 where each $r_k$ isn't just a single token, but an entire grid of tokens at resolution $h_k \times w_k$
 
-## Multi-Scale Tokenization
+## Multi-Scale Tokenization[^6]
 To implement this idea, VARs rely on a multi-scale quantization autoencoder. This autoencoder converts an image into multiple discrete representations at different resolutions.
 
 ![](images_blog/algo1.png)
@@ -320,11 +320,11 @@ But ultimately, we are not looking at a "winner" in AI image generation. While L
 [Journal Link](https://arxiv.org/abs/2006.11239) 
 [^3]: Yekun Ke et al. (2025): *On Computational Limits and Provably Efficient Criteria of Visual Autoregressive Models: A Fine-Grained Complexity Analysis*
 [Journal Link](https://arxiv.org/abs/2501.04377) 
-[^4]: Keyu Tian et al. (2024): *Visual Autoregressive Modeling: Scalable Image Generation via Next-Scale Prediction*
-[Journal Link](https://arxiv.org/abs/2404.02905)
-[^5]: Jascha Sohl-Dickstein et al. (2015): *Deep Unsupervised Learning using Nonequilibrium Thermodynamics*
+[^4]: Jascha Sohl-Dickstein et al. (2015): *Deep Unsupervised Learning using Nonequilibrium Thermodynamics*
 [Journal Link](https://arxiv.org/abs/1503.03585)
-[^6] Aaron Van den Oord et al. (2017): *Neural Discrete Representation Learning*
+[^5]: Keyu Tian et al. (2024): *Visual Autoregressive Modeling: Scalable Image Generation via Next-Scale Prediction*
+[Journal Link](https://arxiv.org/abs/2404.02905)
+[^6]: Aaron Van den Oord et al. (2017): *Neural Discrete Representation Learning*
 [Journal Link](https://arxiv.org/abs/1711.00937)
-[^7] Aaron Van den Oord et al. (2016): *Conditional Image Generation with PixelCNN Decoders*
+[^7]: Aaron Van den Oord et al. (2016): *Conditional Image Generation with PixelCNN Decoders*
 [Journal Link](https://arxiv.org/abs/1606.05328)
