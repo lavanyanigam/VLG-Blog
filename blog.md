@@ -314,17 +314,16 @@ But ultimately, we are not looking at a "winner" in AI image generation. While L
 ---
 
 # References
-
 [^1]: Rombach et al. (2023). *High-Resolution Image Synthesis with Latent Diffusion Models*
 [Journal Link](https://arxiv.org/abs/2112.10752) 
 [^2]: Jo et al. (2020). *Denoising Diffusion Probabilistic Models*
 [Journal Link](https://arxiv.org/abs/2006.11239) 
 [^3]: Yekun Ke et al. (2025): *On Computational Limits and Provably Efficient Criteria of Visual Autoregressive Models: A Fine-Grained Complexity Analysis*
 [Journal Link](https://arxiv.org/abs/2501.04377) 
-[^4]: Jascha Sohl-Dickstein et al. (2015): *Deep Unsupervised Learning using Nonequilibrium Thermodynamics*
-[Journal Link]([https://arxiv.org/abs/2501.04377](https://arxiv.org/abs/1503.03585)
-[^5]: Keyu Tian et al. (2024): *Visual Autoregressive Modeling: Scalable Image Generation via Next-Scale Prediction*
+[^4]: Keyu Tian et al. (2024): *Visual Autoregressive Modeling: Scalable Image Generation via Next-Scale Prediction*
 [Journal Link](https://arxiv.org/abs/2404.02905)
+[^5]: Jascha Sohl-Dickstein et al. (2015): *Deep Unsupervised Learning using Nonequilibrium Thermodynamics*
+[Journal Link](https://arxiv.org/abs/1503.03585)
 [^6] Aaron Van den Oord et al. (2017): *Neural Discrete Representation Learning*
 [Journal Link](https://arxiv.org/abs/1711.00937)
 [^7] Aaron Van den Oord et al. (2016): *Conditional Image Generation with PixelCNN Decoders*
