@@ -5,7 +5,7 @@ Two of the most commonly used ways are **Diffusion models** and **Autoregressive
 
 Diffusion models have dominated image generation, while autoregressive models have produced great results on text based tasks. But things are starting to shift.
 
-In this blog, we’ll break down both approaches in a simple, intuitive way. We’ll look at how they work, where they shine, and where they fall short. But more importantly, when to use diffusion, and when does autoregression make more sense?
+In this blog, we’ll break down both approaches in a simple, intuitive way. We’ll look at how they work, where they shine, and where they fall short. But more importantly, when should you use diffusion, and when does autoregression make more sense?
 
 ---
 
@@ -21,19 +21,19 @@ Diffusion models were initially underexplored. They were actually inspired by ph
 
 The concept was first introduced in a 2015 paper by Jascha Sohl-Dickstein[^4]. Their idea was: what if we take a real image, slowly destroy it by adding static noise until it is unrecognizable, and then teach a neural network to reverse that exact process? Despite the brilliant theory, without the practical applications, diffusion didn't gain popularity. It wasn't until 2020, when Jonathan Ho and his team introduced **DDPMs (Denoising Diffusion Probabilistic Models)**[^2], that the AI community realized this noise-reversing method could actually rival existing image generators like **GANs (Generative Adversarial Networks)**[^1].
 
-Researchers realized that running this denoising process on high-resolution pixel grids was too slow. Compressing the image into a smaller mathematical representation, do the denoising there, and decompressing it at the end would be better. This birthed **Latent Diffusion Models (LDMs)**. Models like **Stable Diffusion, Midjourney**, and **DALL-E** exploded onto the scene, capable of generating realistic images on consumer hardware, and making diffusion as the champion of the visual AI world.
+Researchers realized that running this denoising process on high-resolution pixel grids was too slow. Compressing the image into a smaller mathematical representation, do the denoising there, and decompressing it at the end would be better. This birthed **Latent Diffusion Models (LDMs)**. Models like **Stable Diffusion, Midjourney**, and **DALL-E** exploded onto the scene, capable of generating realistic images on consumer hardware, and making diffusion the champion of the visual AI world.
 
 ---
 
 # Text-to-Image Conditioning with Latent Diffusion Models
 
-![](images_blog/ldms.png)
+![Diagram showing text-to-image conditioning in LDMs](images_blog/ldms.png)
 
 Traditional diffusion models (DDPMs) worked in high-dimensional pixel spaces, making them computationally expensive to train and very slow to generate images. Because of this, they could not produce high-resolution outputs efficiently.
 
 In other words, these traditional models processed the entire high-resolution image tensor as it was for most of the training. Imagine running heavy computations 1,000 times on a $1024 \times 1024 \times 3$ tensor. Only the GPU cost would dig holes in your pockets.
 
-![](images_blog/ldm_basic.png)
+![Diagram showing the basic latent space compression in LDMs](images_blog/ldm_basic.png)
 
 Latent Diffusion Models (LDMs) solved this by doing most of the compute in a smaller, "latent" space. But before we deep-dive into the architecture that makes this possible, these are the basic mathematical terms we might use:
 
@@ -47,7 +47,7 @@ Latent Diffusion Models (LDMs) solved this by doing most of the compute in a sma
 
 ## Phase 1: 
 
-![](images_blog/LDM_arch.png)
+![diagram showing LDM Architecture](images_blog/LDM_arch.png)
 
 Imagine a Latent Diffusion model as a car, and for a moment lets be mechanics trying to build the car. So heres the components we’re supposed to assemble.
 ### 1. The Variational Autoencoder (VAE)
@@ -69,7 +69,7 @@ To make sure the VAE's Decoder is outputting realistic images, we train it with 
 
 ### 3. The CLIP Model
 
-![](images_blog/clip_arch.png)
+![Diagram showing CLIP architecture](images_blog/clip_arch.png)
 
 In an LDM, the text prompt conditions the image generation. But we can't input raw text directly into a neural networks; they understand the math, not English.
 
@@ -79,7 +79,7 @@ This is where the **CLIP (Contrastive Language-Image Pre-training)** text encode
 
 The U-Net puts the "diffusion" in the Latent Diffusion model. Its only motive is: learn how to remove added mathematical noise from the compressed latent representations.
 
-It looks at the noisy latent vector, the timestep $t$ (how much noise was added), and the Text Prompt embeddings. It predicts what the noise lwas a step before and subtracts it to give a slightly cleaner input $x_{t-1}$. Its parameters ($\theta$) are updated using the Mean Squared Error (MSE) loss. 
+It looks at the noisy latent vector, the timestep $t$ (how much noise was added), and the Text Prompt embeddings. It predicts what the noise was a step before and subtracts it to give a slightly cleaner input $x_{t-1}$. Its parameters ($\theta$) are updated using the Mean Squared Error (MSE) loss. 
 
 $$\text{Loss}_{LDM} = \mathbb{E}_{z, \epsilon \sim \mathcal{N}(0,1), t} \left[ || \epsilon - \epsilon_\theta(z_t, t, \text{text}) ||^2 \right]$$
  
@@ -88,9 +88,9 @@ $$\text{Loss}_{LDM} = \mathbb{E}_{z, \epsilon \sim \mathcal{N}(0,1), t} \left[ |
 
 ## Phase 2: Inference
 
-![](images_blog/ldm_inf.png)
+![Diargam showing inference process in LDMs](images_blog/ldm_inf.png)
 
-How do we put together our components the VAE, the U-Net, and the CLIP model to generate a concerningly realistic image? And from what? Here's what:
+How do we put together our components the VAE, the U-Net, and the CLIP model to generate a very realistic image? And from what? Here's what:
 
 1. You type "a boy holding a coffee cup". The **CLIP text encoder** processes this prompt and turns it into a mathematical embedding.
 
@@ -111,7 +111,7 @@ $$q(z_{t-1}|z_t)=\frac{q(z_t|z_{t-1})\cdot q(z_{t-1})}{q(z_t)}$$
 The Numerator: $q(z_t|z_{t-1})$ is just the forward process of adding noise, which we control and hence we know.
 The Denominator (The Problem): $q(z_t)$ is the marginal probability of that specific noisy image existing. 
 
-![](images_blog/ldm_noise.png)
+![Diagram showing noising process in LDMs](images_blog/ldm_noise.png)
 
 For this we need the mathematical formula for the entire dataset of real-world images. 
 This is computationally impossible, or in math terms _intractable_ because real images are too complex. We cannot write a single algebraic equation that outputs a high probability for a realistically generated face and a low probability for TV static looking noise.
@@ -128,7 +128,7 @@ Step-by-step, this whole process models the meaningless distribution of random n
 Autoregressive models have been quite successful in natural language processing (NLP) based tasks but whenever applied in the field of Computer Vision the results haven't been up to the mark. The main reason is that text has a natural sequential structure, whereas images are inherently two-dimensional and lack a canonical ordering. Flattening them into sequences disrupts their spatial structure.
 
 That's where Visual Autoregressive Models (VARs) come into play. They address this issue by shifting from the classic approach of predicting the next token in a flattened sequence, they introduce a fundamentally different approach **next-scale prediction**. 
-Instead of treating an image as a long sequence VAR treats it like a hierarchy of resolutions or representations. It is very similar to the way us humans draw, first defining a general structure and then refining the details.
+Instead of treating an image as a long sequence VAR treats it like a hierarchy of resolutions or representations. It is very similar to the way we humans draw, first defining a general structure and then refining the details.
 
 ## From Next Token to Next-Scale Prediction
 ![](images_blog/VAR.png)
@@ -220,7 +220,7 @@ This multi-scale representation aligns closely with how humans perceive images. 
 
 Once the image is represented as a sequence of token map, the transformer is trained to generate these images sequentially across scales. In the generation process the transformer first generates lower resolution tokens and progressively generates higher resolution tokens.
 
- A key advantage of this approach is that all tokens within a given scale are generated in parallel. Unlike traditional autoregressive models that generate one token at a time, VAR generates an entire grid at once for each scale. This dramatically reduces inference time.
+ A key advantage of this approach is that all tokens within a given scale are generated in parallel. **Unlike traditional autoregressive models that generate one token at a time, VAR generates an entire grid at once for each scale**. This dramatically reduces inference time.
 
 To maintain the autoregressive property, VAR uses a block-wise causal attention mask during training. This ensures that when predicting a token map at scale k, the model only has access to token maps from previous scales (1 to k−1), and not future ones, 
 preserving the autoregressive property and preventing information leakage.
@@ -301,7 +301,7 @@ The coarse-to-fine approach in VAR helps preserve global structure while refinin
 # Conclusion: Diffusion vs. Autoregression
 AI image generation is evolving at an extreme pace. For a long time, Latent Diffusion Models (LDMs) were the undisputed choice for visual tasks. By shifting the computational heavy compute to a compressed latent space, LDMs enabled high-quality and conditioned image generation. However, Visual Autoregressive Models (VAR) now provide a cut-throat competition. By abandoning the "next-token" flat sequence to a "next-scale" hierarchy, VARs solve the spatial and computational issues that earlier held autoregressive vision models back.
 
-So, back to our initial question: when to use diffusion, and when does autoregression make more sense?
+So, back to our initial question: when should you use diffusion, and when does autoregression make more sense?
 
 **Choose Latent Diffusion Models (LDMs) for Control**: 
 If you want precise text conditioning, fine-grained image editing, inpainting, or outpainting, LDMs are your best option. Their iterative denoising process is built for guided adjustments and highly specific user prompts.
@@ -315,9 +315,9 @@ But ultimately, we are not looking at a "winner" in AI image generation. While L
 
 # References
 
-[^1]: Romback, (2023). *High-Resolution Image Synthesis with Latent Diffusion Models*. [Journal Link](https://arxiv.org/abs/2112.10752) 
-[^2]: Jo., (2020). *Denoising Diffusion Probabilistic Models*. [Journal Link]([https://arxiv.org/abs/2112.10752](https://arxiv.org/abs/2006.11239)) 
-[^3]: Yekun Ke. (2025): *On Computational Limits and Provably Efficient Criteria of Visual Autoregressive Models: A Fine-Grained Complexity Analysis*
+[^1]: Rombach et al. (2023). *High-Resolution Image Synthesis with Latent Diffusion Models*. [Journal Link](https://arxiv.org/abs/2112.10752) 
+[^2]: Jo et al. (2020). *Denoising Diffusion Probabilistic Models*. [Journal Link](https://arxiv.org/abs/2006.11239) 
+[^3]: Yekun Ke et al. (2025): *On Computational Limits and Provably Efficient Criteria of Visual Autoregressive Models: A Fine-Grained Complexity Analysis*
   [Journal Link](https://arxiv.org/abs/2501.04377) 
-[^4]: Jascha Sohl-Dickstein. (2015): *Deep Unsupervised Learning using Nonequilibrium Thermodynamics*
+[^4]: Jascha Sohl-Dickstein et al. (2015): *Deep Unsupervised Learning using Nonequilibrium Thermodynamics*
   [Journal Link]([https://arxiv.org/abs/2501.04377](https://arxiv.org/abs/1503.03585)) 
