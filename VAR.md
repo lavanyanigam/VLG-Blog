@@ -8,6 +8,7 @@ That's where Visual Autoregressive Models (VARs) come into play. They address th
 So instead of treating an image as a long sequence VAR treats it like a heirarchy of resolutions or representations. It is very similar to the way humans draw, first a general structure and then refine the details.
 ## From Next Token to Next-Scale Prediction
 ![](images_blog/VAR.png)
+
 Traditional autoregressive image models follow a fixed and simple pipeline:
 
 1. Convert an image into discrete tokens using a tokenizer (e.g., VQ-VAE)
@@ -93,6 +94,8 @@ Here, $\phi_k$ is a small convolutional module that processes the reconstructed 
 This multi-scale representation aligns closely with how humans perceive images. We first grasp the global structure (shapes, layout), and only then focus on fine details (textures, edges). VAR explicitly models this hierarchy.
 
 ## Generation and Training Mechanism
+![](images_blog/training_stage2.png)
+
 Once the image is represented as a sequence of token map, the transformer is trained to generate these images sequentially across scales. In the generation process the transformer first generates lower resolution tokens and progressively generates higher resolution tokens.
 
  A key advantage of this approach is that all tokens within a given scale are generated in parallel. Unlike traditional autoregressive models that generate one token at a time, VAR generates an entire grid at once for each scale. This dramatically reduces inference time.
