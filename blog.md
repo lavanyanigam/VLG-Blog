@@ -321,3 +321,9 @@ But ultimately, we are not looking at a "winner" in AI image generation. While L
   [Journal Link](https://arxiv.org/abs/2501.04377) 
 [^4]: Jascha Sohl-Dickstein et al. (2015): *Deep Unsupervised Learning using Nonequilibrium Thermodynamics*
   [Journal Link]([https://arxiv.org/abs/2501.04377](https://arxiv.org/abs/1503.03585)) 
+[^5]: Keyu Tian et al. (2024): *Visual Autoregressive Modeling: Scalable Image Generation via Next-Scale Prediction*
+[Journal Link](https://arxiv.org/abs/2404.02905)
+[^6] Aaron Van den Oord et al. (2017): *Neural Discrete Representation Learning*
+[Journal Link](https://arxiv.org/abs/1711.00937)
+[^7] Aaron Van den Oord et al. (2016): *Conditional Image Generation with PixelCNN Decoders*
+[Journal Link](https://arxiv.org/abs/1606.05328)
