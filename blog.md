@@ -309,6 +309,6 @@ VAR models, while capable of conditional generation, lack the same level of fine
 ## Quality of Image Generated
 In the research paper on VARs it has been stated that VARs proved to generate better quality images as compared to Latent Diffusion Models. They achieved a better FID (Fréchet Inception Distance) and IS (Inception Score) which are the two standard metrics to judge the quality of images generated.
 
-![](ldm_vs_var.png)
+![](images_blog/ldm_vs_var.png)
 
 The coarse-to-fine approach in VAR helps preserve global structure while refining details progressively.
