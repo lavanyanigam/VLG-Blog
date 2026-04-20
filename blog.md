@@ -309,7 +309,7 @@ If you want precise text conditioning, fine-grained image editing, inpainting, o
 **Choose Visual Autoregressive Models (VAR) for Speed and Scaling**: 
 If you want fast inference speed, amazing raw image quality, and or massive datasets to train on, VAR is the stronger choice. Because they benefit from the same predictable scaling laws that Large Language Models (LLMs) use, more data and compute gives better results for VAR models.
 
-But ultimately, we are not looking at a "winner" in AI image generation. While LDMs currently dominate the practical, consumer focused side of AI art, VARs have proven that the autoregressive approach is far from obsolete in computer vision. Maybe, the next massive breakthrough in generative AI might just be a fusion of both, combining the predictable, fast scaling of autoregression with the pixel-perfect controllability of diffusion.
+But ultimately, we are not looking at a "winner" in AI image generation. While LDMs currently dominate the practical, consumer focused side of AI art, VARs have proven that the autoregressive approach is far from obsolete in computer vision. Maybe, the next massive breakthrough in generative AI might just be a fusion of both, combining the  fast scaling of autoregression with the pixel-perfect controllability of diffusion.
 
 ---
 
