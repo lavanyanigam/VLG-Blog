@@ -29,7 +29,7 @@ Researchers realized that running this denoising process on high-resolution pixe
 
 ![](images_blog/ldms.png)
 
-Traditional diffusion models (DDPMs) worked in high-dimensional pixel spaces, making them computationally expensive to train and very slow to generate images. Because of this, they could not produce high-resolution outputs.
+Traditional diffusion models (DDPMs) worked in high-dimensional pixel spaces, making them computationally expensive to train and very slow to generate images. Because of this, they could not produce high-resolution outputs efficiently.
 
 In other words, these traditional models processed the entire high-resolution image tensor as it was for most of the training. Imagine running heavy computations 1,000 times on a $1024 \times 1024 \times 3$ tensor. Only the GPU cost would dig holes in your pockets.
 
@@ -127,9 +127,8 @@ Step-by-step, this whole process models the meaningless distribution of random n
 
 Autoregressive models have been quite successful in natural language processing (NLP) based tasks but whenever applied in the field of Computer Vision the results haven't been up to the mark. The main reason is that text has a natural sequential structure, whereas images are inherently two-dimensional and lack a canonical ordering. Flattening them into sequences disrupts their spatial structure.
 
-That's where Visual Autoregressive Models (VARs) come into play. They address this issue by shifting from the classic approach of predicting the next token in a flattened sequence, they introduce a fundamentally different approach **next-scale prediction**. This shift allows autoregressive models to finally compete with, and even surpass, diffusion models in image generation.
-
-So instead of treating an image as a long sequence VAR treats it like a hierarchy of resolutions or representations. It is very similar to the way us humans draw, first defining a general structure and then refining the details.
+That's where Visual Autoregressive Models (VARs) come into play. They address this issue by shifting from the classic approach of predicting the next token in a flattened sequence, they introduce a fundamentally different approach **next-scale prediction**. 
+Instead of treating an image as a long sequence VAR treats it like a hierarchy of resolutions or representations. It is very similar to the way us humans draw, first defining a general structure and then refining the details.
 
 ## From Next Token to Next-Scale Prediction
 ![](images_blog/VAR.png)
@@ -159,7 +158,6 @@ In VARs it becomes:
 3. High-Resolution representation (e.g., 256 $\times$ 256)
 
 Each level captures progressively finer details. The model then learns to generate the image coarse-to-fine, predicting each resolution conditioned on the previous ones.
-
 So, it changes the autoregressive factorization from:
 
 $$p(x_1, x_2, \dots, x_T) = \prod_{t=1}^{T} p(x_t \mid x_1, x_2, \dots, x_{t-1})$$
@@ -277,12 +275,8 @@ $$
 by generating entire token maps at each scale instead of individual tokens as per recent study on its computational limits[^3].
 
 ## Inference Speed
-During inference 
-
-* Diffusion models require iterative denoising across many timesteps.
-* VARs generate images across a small number of scales(typically very few steps).
-
-That's why VARs take less time during inference than diffusion models.
+During inference diffusion models require iterative denoising across many timesteps while VARs generate images across a small number of scales.
+This can lead to faster inference speed on the same setups.
 
 ![](images_blog/inference.png)
 
@@ -313,7 +307,7 @@ So, back to our initial question: when to use diffusion, and when does autoregre
 If you want precise text conditioning, fine-grained image editing, inpainting, or outpainting, LDMs are your best option. Their iterative denoising process is built for guided adjustments and highly specific user prompts.
 
 **Choose Visual Autoregressive Models (VAR) for Speed and Scaling**: 
-If you want fast inference speed, amazing raw image quality, and or massive datasets to train on, VAR is the clear choice. Because they benefit from the same predictable scaling laws that Large Language Models (LLMs) use, more data and compute gives better results for VAR models.
+If you want fast inference speed, amazing raw image quality, and or massive datasets to train on, VAR is the stronger choice. Because they benefit from the same predictable scaling laws that Large Language Models (LLMs) use, more data and compute gives better results for VAR models.
 
 But ultimately, we are not looking at a "winner" in AI image generation. While LDMs currently dominate the practical, consumer focused side of AI art, VARs have proven that the autoregressive approach is far from obsolete in computer vision. Maybe, the next massive breakthrough in generative AI might just be a fusion of both, combining the predictable, fast scaling of autoregression with the pixel-perfect controllability of diffusion.
 
