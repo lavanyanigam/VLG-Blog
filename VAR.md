@@ -1,5 +1,5 @@
 # Visual Autoregressive Models (VAR):The Future?
-<center>![Some generated samples by VAR](images_blog/Generated_samples.png)</center>
+![Some generated samples by VAR](images_blog/Generated_samples.png)
 
 Autoregressive models have been quite successful in natural language processing (NLP) based tasks but whenever applied in the field of Computer Vision the results haven't been up to the mark. The main reason is that text has a natural sequential structure, whereas images are inherently two-dimensional and lack a canonical ordering. Flattening them into sequences disrupts their spatial structure.
 
