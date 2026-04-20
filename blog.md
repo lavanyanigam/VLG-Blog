@@ -1,4 +1,4 @@
-# Introduction
+# A comparative study of Latent Diffusion Models and Visual Autoregressive Models
 If you have ever used AI you might have been fascinated to see models generate insanely realistic images, really long essays, or even creating videos out of thin air. Just type a prompt and something meaningful appears. Behind this "magic" there are a few ways or mechanisms to teach the model to create.
 
 Two of the most commonly used ways are **Diffusion models** and **Autoregressive models**. Even though they often achieve similar results, they think in completely different ways. One starts with pure noise and slowly turns it into something structured, like sculpting from a block of marble. The other builds things piece by piece, step by step, like writing a sentence.
