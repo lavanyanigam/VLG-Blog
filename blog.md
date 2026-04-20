@@ -3,21 +3,21 @@ If you have ever used AI you might have been fascinated to see models generate i
 
 Two of the most commonly used ways are **Diffusion models** and **Autoregressive models**. Even though they often achieve similar results, they think in completely different ways. One starts with pure noise and slowly turns it into something structured, like sculpting from a block of marble. The other builds things piece by piece, step by step, like writing a sentence.
 
-For a while, diffusion models dominated image generation, while autoregressive models produced great results on text based tasks. But things are starting to shift.
+Diffusion models have dominated image generation, while autoregressive models have produced great results on text based tasks. But things are starting to shift.
 
-In this blog, we’ll break down both approaches in a simple, intuitive way. We’ll look at how they work, where they shine, and where they fall short. But more importantly, when should you use diffusion, and when does autoregression make more sense?
+In this blog, we’ll break down both approaches in a simple, intuitive way. We’ll look at how they work, where they shine, and where they fall short. But more importantly, when to use diffusion, and when does autoregression make more sense?
 
 ---
 
 ## History of Autoregressive and Diffusion models
 
 **Autoregressive Models**
-Autoregressive models were one of the earliest approaches explored for image generation, inspired by their success in NLP based tasks. Some models like PixelCNN tried to process images sequentially like a text. While this felt theoretically correct, it quickly ran into practical limitations. Images are quite high-dimensional and generating them pixel by pixel resulted in extremely high inference time. Moreover, flattening a 2D image into a 1D sequence disrupts spatial relationships.
+Autoregressive models were one of the earliest approaches explored for image generation, inspired by their success in NLP based tasks. Some models like **PixelCNN** tried to process images sequentially like a text. While this felt theoretically correct, it quickly ran into practical limitations. Images are quite high-dimensional and generating them pixel by pixel resulted in extremely high inference time and compute. Moreover, flattening a 2D image into a 1D sequence disrupts spatial relationships.
 
-Later approaches tried to improve this model by incorporating techniques like VQ-VAE (for discrete tokenization) and combining them with transformers. While they improved representation learning and scalability to some extent they still relied on next token prediction over flattened sequences. As a result, they remained computationally expensive and struggled to match the quality and efficiency of newer methods like diffusion models.
+Later approaches tried to improve this model by incorporating techniques like **VQ-VAE (Vector Quantised-Variational AutoEncoder)** for discrete tokenization and combining them with transformers. While they improved representation learning and scalability to some extent they still relied on next token prediction over flattened sequences. As a result, they remained computationally expensive and struggled to match the quality and efficiency of methods like diffusion modeling.
 
 **Diffusion Models**
-Diffusion models took anaccidental path to the spotlight. They were actually inspired by physics, and more specifically, non-equilibrium thermodynamics.
+Diffusion models were initially underexplored. They were actually inspired by physics, and more specifically, non-equilibrium thermodynamics.
 
 The concept was first introduced in a 2015 paper by Jascha Sohl-Dickstein. Their idea was: what if we take a real image, slowly destroy it by adding static noise until it is unrecognizable, and then teach a neural network to reverse that exact process? Despite the brilliant theory, without the practical applications, diffusion didn't gain popularity. It wasn't until 2020, when Jonathan Ho and his team introduced **DDPMs (Denoising Diffusion Probabilistic Models)**, that the AI community realized this noise-reversing method could actually rival existing image generators like **GANs (Generative Adversarial Networks)**.
 
@@ -71,7 +71,7 @@ To make sure the VAE's Decoder is outputting realistic images, we train it with 
 
 ![](images_blog/clip_arch.png)
 
-In an LDM, the text prompt conditions the image generation. But we can't input text directly into a neural networks; they understand the math in matrices, not English in alphabets.
+In an LDM, the text prompt conditions the image generation. But we can't input raw text directly into a neural networks; they understand the math, not English.
 
 This is where the **CLIP (Contrastive Language-Image Pre-training)** text encoder comes in. It converts human prompts like "a boy holding a coffee cup" into mathematical text embeddings of the same input size as of the noisy starting image inside the U-Net (discussed below). These embeddings get fed into the U-Net to guide the generation process.
 
@@ -129,7 +129,8 @@ Autoregressive models have been quite successful in natural language processing 
 
 That's where Visual Autoregressive Models (VARs) come into play. They address this issue by shifting from the classic approach of predicting the next token in a flattened sequence, they introduce a fundamentally different approach **next-scale prediction**. This shift allows autoregressive models to finally compete with, and even surpass, diffusion models in image generation.
 
-So instead of treating an image as a long sequence VAR treats it like a heirarchy of resolutions or representations. It is very similar to the way humans draw, first a general structure and then refine the details.
+So instead of treating an image as a long sequence VAR treats it like a hierarchy of resolutions or representations. It is very similar to the way us humans draw, first defining a general structure and then refining the details.
+
 ## From Next Token to Next-Scale Prediction
 ![](images_blog/VAR.png)
 
@@ -153,9 +154,9 @@ In VARs it becomes:
 
  Concretely, an image is represented as a hierarchy of token maps:
 
-* A very coarse representation (e.g., 1 $\times$ 1)
-* Intermediate resolutions (e.g., 16 $\times$ 16)
-* High-Resolution representation (e.g., 256 $\times$ 256)
+1. A very coarse representation (e.g., 1 $\times$ 1)
+2. Intermediate resolutions (e.g., 16 $\times$ 16)
+3. High-Resolution representation (e.g., 256 $\times$ 256)
 
 Each level captures progressively finer details. The model then learns to generate the image coarse-to-fine, predicting each resolution conditioned on the previous ones.
 
@@ -202,8 +203,7 @@ The tokens are mapped back to feature space using the shared codebook:
 $$[
 z_k = \text{lookup}(Z, r_k)
 ]$$ 
-
-  - This is then upsampled back to the original resolution
+- This is then upsampled back to the original resolution
 
 4. Residual refinement
 
@@ -215,7 +215,7 @@ f = f - \phi_k(z_k)
 
 Here, $\phi_k$ is a small convolutional module that processes the reconstructed features.
 
-This multi-scale representation aligns closely with how humans perceive images. We first grasp the global structure (shapes, layout), and only then focus on fine details (textures, edges). VAR explicitly models this hierarchy.
+This multi-scale representation aligns closely with how humans perceive images. We first grasp the global structure like shapes, layout, and only then focus on fine details like textures and edges. VAR explicitly models this hierarchy.
 
 ## Generation and Training Mechanism
 ![](images_blog/training_stage2.png)
@@ -292,17 +292,10 @@ That's why VARs take less time during inference than diffusion models.
 
 ## Data Requirements and Scaling
 Diffusion models are known to perform well even with moderately large datasets, but their scaling behavior is less predictable.
-
-VAR models, on the other hand, exhibit clear scaling laws similar to Large Language Models(LLMs) i.e., performance improves consistently with more data.
+VARs seem to follow more predictable scaling trends till now, similar to autoregressive language models, though this is still an active area of research.
 
 ## Controllability
-Diffusion models currently have an advantage when it comes to controllability.
-
-They support:
-
-* Classifier guidance
-* Conditional generation (text, segmentation, etc.)
-* Fine-grained editing (inpainting, outpainting)
+Because diffusion operates through iterative refinement, it allows interventions at intermediate steps and makes techniques like inpainting and guided editing possible. Apart from this, they also support Classifier guidance, Conditional generation with text, segmentation, etc.
 
 VAR models, while capable of conditional generation, lack the same level of fine-grained iterative control. Therefore, Diffusion models are better suited for applications requiring precise control over outputs.
 
