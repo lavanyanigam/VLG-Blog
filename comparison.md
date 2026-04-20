@@ -41,7 +41,7 @@ They support:
 VAR models, while capable of conditional generation, lack the same level of fine-grained iterative control. Therefore, Diffusion models are better suited for applications requiring precise control over outputs.
 
 ## Quality of Image Generated
-In the research paper on VARs it has been stated that VARs proved t generate better quality images as compared to Latent Diffusion Models. They achieved a better FID (Fréchet Inception Distance) and IS (Inception Score).
+In the research paper on VARs it has been stated that VARs proved to generate better quality images as compared to Latent Diffusion Models. They achieved a better FID (Fréchet Inception Distance) and IS (Inception Score) which are the two standard metrics to judge the quality of images generated.
 
 ![](ldm_vs_var.png)
 
