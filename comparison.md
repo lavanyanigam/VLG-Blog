@@ -24,6 +24,8 @@ During inference
 
 That's why VARs take less time during inference than diffusion models.
 
+![](images_blog/inference.png)
+
 ## Data Requirements and Scaling
 Diffusion models are known to perform well even with moderately large datasets, but their scaling behavior is less predictable.
 
