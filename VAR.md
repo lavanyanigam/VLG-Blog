@@ -7,6 +7,7 @@ That's where Visual Autoregressive Models (VARs) come into play. They address th
 
 So instead of treating an image as a long sequence VAR treats it like a heirarchy of resolutions or representations. It is very similar to the way humans draw, first a general structure and then refine the details.
 ## From Next Token to Next-Scale Prediction
+![](images_blog/VAR.png)
 Traditional autoregressive image models follow a fixed and simple pipeline:
 
 1. Convert an image into discrete tokens using a tokenizer (e.g., VQ-VAE)
