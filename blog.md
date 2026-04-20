@@ -21,7 +21,7 @@ Diffusion models were initially underexplored. They were actually inspired by ph
 
 The concept was first introduced in a 2015 paper by Jascha Sohl-Dickstein[^4]. Their idea was: what if we take a real image, slowly destroy it by adding static noise until it is unrecognizable, and then teach a neural network to reverse that exact process? Despite the brilliant theory, without the practical applications, diffusion didn't gain popularity. It wasn't until 2020, when Jonathan Ho and his team introduced **DDPMs (Denoising Diffusion Probabilistic Models)**[^2], that the AI community realized this noise-reversing method could actually rival existing image generators like **GANs (Generative Adversarial Networks)**[^1].
 
-Researchers realized that running this denoising process on high-resolution pixel grids was too slow. Compressing the image into a smaller mathematical representation, do the denoising there, and decompressing it at the end would be better. This birthed **Latent Diffusion Models (LDMs)**. Models like **Stable Diffusion, Midjourney**, and **DALL-E** exploded onto the scene, capable of generating realistic images on consumer hardware, and makingg diffusion as the champion of the visual AI world.
+Researchers realized that running this denoising process on high-resolution pixel grids was too slow. Compressing the image into a smaller mathematical representation, do the denoising there, and decompressing it at the end would be better. This birthed **Latent Diffusion Models (LDMs)**. Models like **Stable Diffusion, Midjourney**, and **DALL-E** exploded onto the scene, capable of generating realistic images on consumer hardware, and making diffusion as the champion of the visual AI world.
 
 ---
 
