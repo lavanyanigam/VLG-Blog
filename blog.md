@@ -7,6 +7,8 @@ For a while, diffusion models dominated image generation, while autoregressive m
 
 In this blog, we’ll break down both approaches in a simple, intuitive way. We’ll look at how they work, where they shine, and where they fall short. But more importantly, when should you use diffusion, and when does autoregression make more sense?
 
+---
+
 ## History of Autoregressive and Diffusion models
 
 **Autoregressive Models**
@@ -21,15 +23,17 @@ The concept was first introduced in a 2015 paper by Jascha Sohl-Dickstein. Their
 
 Researchers realized that running this denoising process on high-resolution pixel grids was too slow. Compressing the image into a smaller mathematical representation, do the denoising there, and decompressing it at the end would be better. This birthed **Latent Diffusion Models (LDMs)**. Models like **Stable Diffusion, Midjourney**, and **DALL-E** exploded onto the scene, capable of generating realistic images on consumer hardware, and makingg diffusion as the champion of the visual AI world.
 
+---
+
 # Text-to-Image Conditioning with Latent Diffusion Models
 
-![](ldms.png)
+![](images_blog/ldms.png)
 
 Traditional diffusion models (DDPMs) worked in high-dimensional pixel spaces, making them computationally expensive to train and very slow to generate images. Because of this, they could not produce high-resolution outputs.
 
 In other words, these traditional models processed the entire high-resolution image tensor as it was for most of the training. Imagine running heavy computations 1,000 times on a $1024 \times 1024 \times 3$ tensor. Only the GPU cost would dig holes in your pockets.
 
-![](ldm_basic.png)
+![](images_blog/ldm_basic.png)
 
 Latent Diffusion Models (LDMs) solved this by doing most of the compute in a smaller, "latent" space. But before we deep-dive into the architecture that makes this possible, these are the basic mathematical terms we might use:
 
@@ -41,10 +45,9 @@ Latent Diffusion Models (LDMs) solved this by doing most of the compute in a sma
 
 -  $p_{\text{init}}$: The initial distribution at $t=0$. This is usually pure, random noise (a Gaussian distribution in our case).
 
----
 ## Phase 1: 
 
-![](LDM_arch.png)
+![](images_blog/LDM_arch.png)
 
 Imagine a Latent Diffusion model as a car, and for a moment lets be mechanics trying to build the car. So heres the components we’re supposed to assemble.
 ### 1. The Variational Autoencoder (VAE)
@@ -66,7 +69,7 @@ To make sure the VAE's Decoder is outputting realistic images, we train it with 
 
 ### 3. The CLIP Model
 
-![](clip_arch.png)
+![](images_blog/clip_arch.png)
 
 In an LDM, the text prompt conditions the image generation. But we can't input text directly into a neural networks; they understand the math in matrices, not English in alphabets.
 
@@ -76,19 +79,16 @@ This is where the **CLIP (Contrastive Language-Image Pre-training)** text encode
 
 The U-Net puts the "diffusion" in the Latent Diffusion model. Its only motive is: learn how to remove added mathematical noise from the compressed latent representations.
 
-![](ldm_noise.png)
-
 It looks at the noisy latent vector, the timestep $t$ (how much noise was added), and the Text Prompt embeddings. It predicts what the noise lwas a step before and subtracts it to give a slightly cleaner input $x_{t-1}$. Its parameters ($\theta$) are updated using the Mean Squared Error (MSE) loss. 
 
 $$\text{Loss}_{LDM} = \mathbb{E}_{z, \epsilon \sim \mathcal{N}(0,1), t} \left[ || \epsilon - \epsilon_\theta(z_t, t, \text{text}) ||^2 \right]$$
  
 **Classifier-Free Guidance**: To force the model to follow the prompt, we randomly drop the text conditioning during training. During generation, the U-Net runs twice, once with the text and once without it and mathematically we push the generation in the direction of the conditioned prompt. 
 
----
 
 ## Phase 2: Inference
 
-![](ldm_inf.png)
+![](images_blog/ldm_inf.png)
 
 How do we put together our components the VAE, the U-Net, and the CLIP model to generate a concerningly realistic image? And from what? Here's what:
 
@@ -111,6 +111,7 @@ $$q(z_{t-1}|z_t)=\frac{q(z_t|z_{t-1})\cdot q(z_{t-1})}{q(z_t)}$$
 The Numerator: $q(z_t|z_{t-1})$ is just the forward process of adding noise, which we control and hence we know.
 The Denominator (The Problem): $q(z_t)$ is the marginal probability of that specific noisy image existing. 
 
+![](images_blog/ldm_noise.png)
 
 For this we need the mathematical formula for the entire dataset of real-world images. 
 This is computationally impossible, or in math terms _intractable_ because real images are too complex. We cannot write a single algebraic equation that outputs a high probability for a realistically generated face and a low probability for TV static looking noise.
@@ -118,6 +119,8 @@ This is computationally impossible, or in math terms _intractable_ because real 
 Because we cannot calculate the reverse path $q(z_{t-1}|z_t)$, we have to approximate it using our U-Net neural network. It gives us an estimated probability distribution: $p_\theta(z_{t-1}|z_t)$. Here $\theta$ is the the weights and biases of our neural network which we can update.
 
 Step-by-step, this whole process models the meaningless distribution of random noise ($p_{init}$) into the shape of the highly structured distribution of real images ($p_{data}$).
+
+---
 
 # Visual Autoregressive Models (VAR):The Future?
 !["Some generated samples by VAR"](images_blog/Generated_samples.png)
@@ -256,6 +259,8 @@ $$\hat{f}=0$$
    $$\hat{\text{im}} = \mathcal{D}(\hat{f})$$
 
 So after the token maps have been generated by transformers across multiple scales then the decoder network reconstructs the final image via algorithm 2.
+
+---
 
 # Comparison
 ## Time Complexity
