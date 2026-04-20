@@ -53,8 +53,6 @@ This is where the **CLIP (Contrastive Language-Image Pre-training)** text encode
 
 The U-Net puts the "diffusion" in the Latent Diffusion model. Its only motive is: learn how to remove added mathematical noise from the compressed latent representations.
 
-![](images_blog/ldm_noise.png)
-
 It looks at the noisy latent vector, the timestep $t$ (how much noise was added), and the Text Prompt embeddings. It predicts what the noise lwas a step before and subtracts it to give a slightly cleaner input $x_{t-1}$. Its parameters ($\theta$) are updated using the Mean Squared Error (MSE) loss. 
 
 $$\text{Loss}_{LDM} = \mathbb{E}_{z, \epsilon \sim \mathcal{N}(0,1), t} \left[ || \epsilon - \epsilon_\theta(z_t, t, \text{text}) ||^2 \right]$$
@@ -88,6 +86,7 @@ $$q(z_{t-1}|z_t)=\frac{q(z_t|z_{t-1})\cdot q(z_{t-1})}{q(z_t)}$$
 The Numerator: $q(z_t|z_{t-1})$ is just the forward process of adding noise, which we control and hence we know.
 The Denominator (The Problem): $q(z_t)$ is the marginal probability of that specific noisy image existing. 
 
+![](images_blog/ldm_noise.png)
 
 For this we need the mathematical formula for the entire dataset of real-world images. 
 This is computationally impossible, or in math terms _intractable_ because real images are too complex. We cannot write a single algebraic equation that outputs a high probability for a realistically generated face and a low probability for TV static looking noise.
