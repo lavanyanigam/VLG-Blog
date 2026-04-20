@@ -1,12 +1,12 @@
 # Text-to-Image Conditioning with Latent Diffusion Models
 
-![](ldms.png)
+![](images_blog/ldms.png)
 
 Traditional diffusion models (DDPMs) worked in high-dimensional pixel spaces, making them computationally expensive to train and very slow to generate images. Because of this, they could not produce high-resolution outputs.
 
 In other words, these traditional models processed the entire high-resolution image tensor as it was for most of the training. Imagine running heavy computations 1,000 times on a $1024 \times 1024 \times 3$ tensor. Only the GPU cost would dig holes in your pockets.
 
-![](ldm_basic.png)
+![](images_blog/ldm_basic.png)
 
 Latent Diffusion Models (LDMs) solved this by doing most of the compute in a smaller, "latent" space. But before we deep-dive into the architecture that makes this possible, these are the basic mathematical terms we might use:
 
@@ -21,7 +21,7 @@ Latent Diffusion Models (LDMs) solved this by doing most of the compute in a sma
 ---
 ## Phase 1: 
 
-![](LDM_arch.png)
+![](images_blog/LDM_arch.png)
 
 Imagine a Latent Diffusion model as a car, and for a moment lets be mechanics trying to build the car. So heres the components we’re supposed to assemble.
 ### 1. The Variational Autoencoder (VAE)
@@ -43,7 +43,7 @@ To make sure the VAE's Decoder is outputting realistic images, we train it with 
 
 ### 3. The CLIP Model
 
-![](clip_arch.png)
+![](images_blog/clip_arch.png)
 
 In an LDM, the text prompt conditions the image generation. But we can't input text directly into a neural networks; they understand the math in matrices, not English in alphabets.
 
@@ -53,7 +53,7 @@ This is where the **CLIP (Contrastive Language-Image Pre-training)** text encode
 
 The U-Net puts the "diffusion" in the Latent Diffusion model. Its only motive is: learn how to remove added mathematical noise from the compressed latent representations.
 
-![](ldm_noise.png)
+![](images_blog/ldm_noise.png)
 
 It looks at the noisy latent vector, the timestep $t$ (how much noise was added), and the Text Prompt embeddings. It predicts what the noise lwas a step before and subtracts it to give a slightly cleaner input $x_{t-1}$. Its parameters ($\theta$) are updated using the Mean Squared Error (MSE) loss. 
 
@@ -65,7 +65,7 @@ $$\text{Loss}_{LDM} = \mathbb{E}_{z, \epsilon \sim \mathcal{N}(0,1), t} \left[ |
 
 ## Phase 2: Inference
 
-![](ldm_inf.png)
+![](images_blog/ldm_inf.png)
 
 How do we put together our components the VAE, the U-Net, and the CLIP model to generate a concerningly realistic image? And from what? Here's what:
 
