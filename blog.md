@@ -37,7 +37,7 @@ In other words, these traditional models processed the entire high-resolution im
 
 Latent Diffusion Models (LDMs) solved this by doing most of the compute in a smaller, "latent" space. But before we deep-dive into the architecture that makes this possible, these are the basic mathematical terms we might use:
 
-- $t$: This is the current time step. This usually goes from $0$ to $1$. We spilt our process into $T$ steps of size 1/ $T$. 
+- $t$: This is the current time step. This usually goes from $0$ to $1$. We split our process into $T$ steps of size 1/ $T$. 
 
 - $z$: This is the compressed, "latent" version of an image.
 
@@ -218,7 +218,7 @@ This multi-scale representation aligns closely with how humans perceive images. 
 ## Generation and Training Mechanism
 ![](images_blog/training_stage2.png)
 
-Once the image is represented as a sequence of token map, the transformer is trained to generate these images sequentially across scales. In the generation process the transformer first generates lower resolution tokens and progressively generates higher resolution tokens.
+Once the image is represented as a sequence of token maps, the transformer is trained to generate these images sequentially across scales. In the generation process the transformer first generates lower resolution tokens and progressively generates higher resolution tokens.
 
  A key advantage of this approach is that all tokens within a given scale are generated in parallel. **Unlike traditional autoregressive models that generate one token at a time, VAR generates an entire grid at once for each scale**. This dramatically reduces inference time.
 
@@ -316,7 +316,7 @@ But ultimately, we are not looking at a "winner" in AI image generation. While L
 # References
 [^1]: Rombach et al. (2023). *High-Resolution Image Synthesis with Latent Diffusion Models*
 [Journal Link](https://arxiv.org/abs/2112.10752) 
-[^2]: Jo et al. (2020). *Denoising Diffusion Probabilistic Models*
+[^2]: Jonathan ho et al. (2020). *Denoising Diffusion Probabilistic Models*
 [Journal Link](https://arxiv.org/abs/2006.11239) 
 [^3]: Yekun Ke et al. (2025): *On Computational Limits and Provably Efficient Criteria of Visual Autoregressive Models: A Fine-Grained Complexity Analysis*
 [Journal Link](https://arxiv.org/abs/2501.04377) 
