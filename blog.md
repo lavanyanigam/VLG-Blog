@@ -19,7 +19,7 @@ Later approaches tried to improve this model by incorporating techniques like **
 **Diffusion Models**
 Diffusion models were initially underexplored. They were actually inspired by physics, and more specifically, non-equilibrium thermodynamics.
 
-The concept was first introduced in a 2015 paper by Jascha Sohl-Dickstein. Their idea was: what if we take a real image, slowly destroy it by adding static noise until it is unrecognizable, and then teach a neural network to reverse that exact process? Despite the brilliant theory, without the practical applications, diffusion didn't gain popularity. It wasn't until 2020, when Jonathan Ho and his team introduced **DDPMs (Denoising Diffusion Probabilistic Models)**, that the AI community realized this noise-reversing method could actually rival existing image generators like **GANs (Generative Adversarial Networks)**.
+The concept was first introduced in a 2015 paper by Jascha Sohl-Dickstein[^4]. Their idea was: what if we take a real image, slowly destroy it by adding static noise until it is unrecognizable, and then teach a neural network to reverse that exact process? Despite the brilliant theory, without the practical applications, diffusion didn't gain popularity. It wasn't until 2020, when Jonathan Ho and his team introduced **DDPMs (Denoising Diffusion Probabilistic Models)**[^2], that the AI community realized this noise-reversing method could actually rival existing image generators like **GANs (Generative Adversarial Networks)**[^1].
 
 Researchers realized that running this denoising process on high-resolution pixel grids was too slow. Compressing the image into a smaller mathematical representation, do the denoising there, and decompressing it at the end would be better. This birthed **Latent Diffusion Models (LDMs)**. Models like **Stable Diffusion, Midjourney**, and **DALL-E** exploded onto the scene, capable of generating realistic images on consumer hardware, and makingg diffusion as the champion of the visual AI world.
 
@@ -325,3 +325,5 @@ But ultimately, we are not looking at a "winner" in AI image generation. While L
 [^2]: Jo., (2020). *Denoising Diffusion Probabilistic Models*. [Journal Link]([https://arxiv.org/abs/2112.10752](https://arxiv.org/abs/2006.11239)) 
 [^3]: Yekun Ke. (2025): *On Computational Limits and Provably Efficient Criteria of Visual Autoregressive Models: A Fine-Grained Complexity Analysis*
   [Journal Link](https://arxiv.org/abs/2501.04377) 
+[^4]: Jascha Sohl-Dickstein. (2015): *Deep Unsupervised Learning using Nonequilibrium Thermodynamics*
+  [Journal Link]([https://arxiv.org/abs/2501.04377](https://arxiv.org/abs/1503.03585)) 
