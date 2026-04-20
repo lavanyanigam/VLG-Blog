@@ -123,7 +123,7 @@ Step-by-step, this whole process models the meaningless distribution of random n
 ---
 
 # Visual Autoregressive Models (VAR): A Promising Alternative to Diffusion?
-!["Some generated samples by VAR"](images_blog/Generated_samples.png)
+![Some generated samples by VAR](images_blog/Generated_samples.png)
 
 Autoregressive models have been quite successful in natural language processing (NLP) based tasks but whenever applied in the field of Computer Vision the results haven't been up to the mark. The main reason is that text has a natural sequential structure, whereas images are inherently two-dimensional and lack a canonical ordering. Flattening them into sequences disrupts their spatial structure.
 
@@ -131,7 +131,7 @@ That's where Visual Autoregressive Models (VARs) come into play. They address th
 Instead of treating an image as a long sequence VAR treats it like a hierarchy of resolutions or representations. It is very similar to the way we humans draw, first defining a general structure and then refining the details.
 
 ## From Next Token to Next-Scale Prediction
-![](images_blog/VAR.png)
+![This is how VARs generate image scale by scale](images_blog/VAR.png)
 
 Traditional autoregressive image models follow a fixed and simple pipeline:
 
@@ -278,7 +278,7 @@ by generating entire token maps at each scale instead of individual tokens as pe
 During inference diffusion models require iterative denoising across many timesteps while VARs generate images across a small number of scales.
 This can lead to faster inference speed on the same setups.
 
-![](images_blog/inference.png)
+![This image shows how faster VARs are as compared to other models](images_blog/inference.png)
 
 ## Data Requirements and Scaling
 Diffusion models are known to perform well even with moderately large datasets, but their scaling behavior is less predictable.
