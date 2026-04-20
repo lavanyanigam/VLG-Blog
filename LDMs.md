@@ -89,8 +89,6 @@ $$q(z_{t-1}|z_t)=\frac{q(z_t|z_{t-1})\cdot q(z_{t-1})}{q(z_t)}$$
 The Numerator: $q(z_t|z_{t-1})$ is just the forward process of adding noise, which we control and hence we know.
 The Denominator (The Problem): $q(z_t)$ is the marginal probability of that specific noisy image existing. 
 
-![ldm_maths.png]()
-
 
 For this we need the mathematical formula for the entire dataset of real-world images. 
 This is computationally impossible, or in math terms _intractable_ because real images are too complex. We cannot write a single algebraic equation that outputs a high probability for a realistically generated face and a low probability for TV static looking noise.
