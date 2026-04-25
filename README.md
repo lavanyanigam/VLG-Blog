@@ -19,13 +19,13 @@ Later approaches tried to improve this model by incorporating techniques like **
 **Diffusion Models**
 Diffusion models were initially underexplored. They were actually inspired by physics, and more specifically, non-equilibrium thermodynamics.
 
-The concept was first introduced in a 2015 paper by Jascha Sohl-Dickstein[^4]. Their idea was: what if we take a real image, slowly destroy it by adding static noise until it is unrecognizable, and then teach a neural network to reverse that exact process? Despite the brilliant theory, without the practical applications, diffusion didn't gain popularity. It wasn't until 2020, when Jonathan Ho and his team introduced **DDPMs (Denoising Diffusion Probabilistic Models)**[^2], that the AI community realized this noise-reversing method could actually rival existing image generators like **GANs (Generative Adversarial Networks)**[^1].
+The concept was first introduced in a 2015 paper by Jascha Sohl-Dickstein[^4]. Their idea was: what if we take a real image, slowly destroy it by adding static noise until it is unrecognizable, and then teach a neural network to reverse that exact process? Despite the brilliant theory, without the practical applications, diffusion didn't gain popularity. It wasn't until 2020, when Jonathan Ho and his team introduced **DDPMs (Denoising Diffusion Probabilistic Models)**[^2], that the AI community realized this noise-reversing method could actually rival existing image generators like **GANs (Generative Adversarial Networks)**[^8].
 
 Researchers realized that running this denoising process on high-resolution pixel grids was too slow. Compressing the image into a smaller mathematical representation, do the denoising there, and decompressing it at the end would be better. This birthed **Latent Diffusion Models (LDMs)**. Models like **Stable Diffusion, Midjourney**, and **DALL-E** exploded onto the scene, capable of generating realistic images on consumer hardware, and making diffusion the champion of the visual AI world.
 
 ---
 
-# Text-to-Image Conditioning with Latent Diffusion Models
+# Text-to-Image Conditioning with Latent Diffusion Models[^1]
 
 ![Diagram showing text-to-image conditioning in LDMs](images_blog/ldms.png)
 
@@ -314,6 +314,7 @@ But ultimately, we are not looking at a "winner" in AI image generation. While L
 ---
 
 # References
+
 [^1]: Rombach et al. (2023). *High-Resolution Image Synthesis with Latent Diffusion Models*
 [Journal Link](https://arxiv.org/abs/2112.10752) 
 [^2]: Jonathan ho et al. (2020). *Denoising Diffusion Probabilistic Models*
@@ -328,3 +329,4 @@ But ultimately, we are not looking at a "winner" in AI image generation. While L
 [Journal Link](https://arxiv.org/abs/1711.00937)
 [^7]: Aaron Van den Oord et al. (2016): *Conditional Image Generation with PixelCNN Decoders*
 [Journal Link](https://arxiv.org/abs/1606.05328)
+[^8]: Goodfellow et al. *Generative Adversarial Networks* [Journal link](https://arxiv.org/abs/1406.2661)
