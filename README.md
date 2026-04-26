@@ -41,9 +41,9 @@ Latent Diffusion Models (LDMs) solved this by doing most of the compute in a sma
 
 - $z$: This is the compressed, "latent" version of an image.
 
-- $p_{\text{data}}$: The true probability distribution of our data, where all real images in our dataset exist.
+- $p_{\text{data}}(.)$: The true probability distribution of our data, where all real images in our dataset exist.
 
--  $p_{\text{init}}$: The initial distribution at $t=0$. This is usually pure, random noise (a Gaussian distribution in our case).
+-  $p_{\text{init}}(.)$: The initial distribution at $t=0$. This is usually pure, random noise (a Gaussian distribution in our case).
 
 ## Phase 1: 
 
@@ -118,7 +118,7 @@ This is computationally impossible, or in math terms _intractable_ because real 
 
 Because we cannot calculate the reverse path $q(z_{t-1}|z_t)$, we have to approximate it using our U-Net neural network. It gives us an estimated probability distribution: $p_\theta(z_{t-1}|z_t)$. Here $\theta$ is the the weights and biases of our neural network which we can update.
 
-Step-by-step, this whole process models the meaningless distribution of random noise ($p_{init}$) into the shape of the highly structured distribution of real images ($p_{data}$).
+Step-by-step, this whole process models the meaningless distribution of random noise ($p_{init}(.) $) into the shape of the highly structured distribution of real images ($p_{data}(.) $).
 
 ---
 
